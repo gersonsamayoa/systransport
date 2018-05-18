@@ -1,0 +1,29 @@
+.contenedor-carrusel{
+	padding-right: 0px;
+    padding-left: 0px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: -20px;
+}
+
+.contenido{
+	padding-left:25px;
+	margin-bottom: 25px;
+}
+
+.footer {
+  padding-top: 10px;
+  position: relative;
+  width: 100%;
+  height: 75px;
+  background-color: #e8e8e8;
+  margin-top: 30px;
+}
+
+.menu {
+  margin-bottom: 0px;
+}
+
+.login {
+  width: 300px;
+}
