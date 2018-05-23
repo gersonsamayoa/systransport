@@ -4,7 +4,7 @@
 
 @section('content')
 	
-	{!! Form::open(['route' =>['admin.usuarios.update', $user], 'method'=>'PUT']) !!}
+	{!! Form::open(['route' =>['admin.usuarios.update', $user->id], 'method'=>'PUT']) !!}
 
 		<div class="form-group">
 		{!!Form::label('name','Nombre')!!}
@@ -24,19 +24,19 @@
 		
 		@if(Auth::user()->gerentegeneral())
 		<div class="form-group">
-		{!!Form::label('type','Tipo')!!}
-		{!!Form::select('type', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuarioconstruccion'=>'Usuario Construccion','gerentemineria'=>'Gerente Mineria','gerenteproductos'=>'Gerente Productos','gerenteconstruccion'=>'Gerente Construccion','gerentegeneral'=>'Gerente General'], $user->type, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::label('Tipo','Tipo')!!}
+		{!!Form::select('tipoUsuario_id', ['gerentegeneral'=>'Gerente General','gerentemineria'=>'Gerente Mineria','gerenteproductos'=>'Gerente Productos','gerentemaquinaria'=>'Gerente Maquinaria','usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria'], $user->tipoUsuario->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
 		@else
 		<div class="form-group">
-		{!!Form::label('type','Tipo')!!}
-		{!!Form::select('type', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuarioconstruccion'=>'Usuario Construccion'], $user->type, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::label('Tipo','Tipo')!!}
+		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria'], $user->tipoUsuario->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
 		@endif
 		
 		<div class="form-group">
 		{!!Form::label('region','Region')!!}
-		{!!Form::select('region', ['coban'=>'Cobán','progreso'=>'Progreso','quetzaltenango'=>'Quetzaltenango','peten'=>'Petén','zacapa'=>'Zacapa','huehuetenango'=>'Huehuetenango'], $user->region, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::select('region_id', ['coban'=>'Cobán','progreso'=>'Progreso','quetzaltenango'=>'Quetzaltenango','peten'=>'Petén','zacapa'=>'Zacapa','huehuetenango'=>'Huehuetenango'], $user->region->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
 
 		<div class="form-group">

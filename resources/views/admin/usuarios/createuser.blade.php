@@ -30,17 +30,12 @@
 		{!!Form::label('password','Contraseña')!!}
 		{!!Form::password('password', ['class'=>'form-control', 'placeholder'=>'*******','required'])!!}
 		</div>
-		@if(Auth::user()->gerentegeneral())
-		<div class="form-group">
-		{!!Form::label('Tipo','Tipo')!!}
-		{!!Form::select('tipoUsuario_id', ['gerentegeneral'=>'Gerente General','gerentemineria'=>'Gerente Mineria','gerenteproductos'=>'Gerente Productos','gerentemaquinaria'=>'Gerente Maquinaria','usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
-		</div>
-		@else
+		
 		<div class="form-group">
 		{!!Form::label('Tipo','Tipo')!!}
 		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
-		@endif
+	
 
 		<div class="form-group">
 		{!!Form::label('Region','Region')!!}

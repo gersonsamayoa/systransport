@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
+
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
@@ -28,8 +29,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'type', 'region'];
-
+    protected $fillable = ['name', 'email', 'password', 'tipoUsuario_id', 'region_id'];
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -37,65 +37,53 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token'];
 
-     public function usuariomineria()
+    public function region()
     {
-        return $this->type==='usuariomineria';
+    return $this->belongsTo('App\region', 'region_id');
     }
 
-    public function usuarioproductos()
+    public function tipoUsuario()
     {
-        return $this->type==='usuarioproductos';
+    return $this->belongsTo('App\tipoUsuario', 'tipoUsuario_id');
     }
 
-    public function usuarioconstruccion()
+    public function gerentegeneral()
     {
-        return $this->type==='usuarioconstruccion';
+        return $this->tipoUsuario->descripcion==='gerentegeneral';
     }
+
     public function gerentemineria()
     {
-        return $this->type==='gerentemineria';
+        return $this->tipoUsuario->descripcion==='gerentemineria';
     }
 
     public function gerenteproductos()
     {
-        return $this->type==='gerenteproductos';
+        return $this->tipoUsuario->descripcion==='gerenteproductos';
     }
 
-    public function gerenteconstruccion()
+    public function gerentemaquinaria()
     {
-        return $this->type==='gerenteconstruccion';
+        return $this->tipoUsuario->descripcion==='gerentemaquinaria';
     }
-    public function gerentegeneral()
+     public function usuariomineria()
     {
-        return $this->type==='gerentegeneral';
+        return $this->tipoUsuario->descripcion==='usuariomineria';
     }
+    public function usuarioproductos()
+    {
+        return $this->tipoUsuario->descripcion==='usuarioproductos';
+    }   
+
+    public function usuariomaquinaria()
+    {
+        return $this->tipoUsuario->descripcion==='usuariomaquinaria';
+    }
+ 
 
     public function coban()
     {
-        return $this->type==='coban';
+        return $this->region->descripcion==='coban';
     }
-    public function progreso()
-    {
-        return $this->type==='progreso';
-    }
-    public function quetzaltenango()
-    {
-        return $this->type==='quetzaltenango';
-    }
-    public function peten()
-    {
-        return $this->type==='peten';
-    }
-    public function zacapa()
-    {
-        return $this->type==='zacapa';
-    }
-    public function huehuetenango()
-    {
-        return $this->type==='huehuetenango';
-    }
-    public function general()
-    {
-        return $this->type==='general';
-    }
+    
 }

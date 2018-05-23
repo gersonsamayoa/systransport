@@ -32,7 +32,7 @@
                 </ul>
             </li>
             @endif
-            @if(Auth::user()->gerenteproductos() OR Auth::user()->usuarioproductos() OR Auth::user()->gerentegeneral())
+            @if(Auth::user()->gerentemaquinaria() OR Auth::user()->usuariomaquinaria() OR Auth::user()->gerentegeneral())
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Servicios de <br>Construcción</a>
                 <ul class="dropdown-menu" role="menu">
@@ -42,7 +42,7 @@
             </li>
           @endif
 
-          @if(Auth::user()->gerentemineria() OR Auth::user()->gerenteproductos()  OR Auth::user()->gerenteconstruccion() OR Auth::user()->gerentegeneral())
+          @if(Auth::user()->gerentemineria() OR Auth::user()->gerenteproductos()  OR Auth::user()->gerentemaquinaria() OR Auth::user()->gerentegeneral())
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Gestión de<br>Usuarios</a>
                 <ul class="dropdown-menu" role="menu">
@@ -73,9 +73,6 @@
             </li>
           </ul>
       @endif
-
 </div>
 </div>
 </nav>
-
-        
