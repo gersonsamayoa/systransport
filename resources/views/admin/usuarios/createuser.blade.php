@@ -39,7 +39,7 @@
 
 		<div class="form-group">
 		{!!Form::label('Region','Region')!!}
-		{!!Form::select('region_id', ['coban'=>'Cobán','progreso'=>'Progreso','quetzaltenango'=>'Quetzaltenango','peten'=>'Petén','zacapa'=>'Zacapa','huehuetenango'=>'Huehuetenango'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::select('region_id', $regiones, null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
 		
 		<div class="form-group">

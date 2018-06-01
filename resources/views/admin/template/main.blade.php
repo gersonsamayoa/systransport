@@ -25,6 +25,7 @@
                 <h3>@yield('subtitle')</h3>
 
                 <section class="container">
+                @include('flash::message')
                 @yield('content')
                 </section>
         </div>

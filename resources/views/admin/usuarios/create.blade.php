@@ -33,10 +33,16 @@
 		@if(Auth::user()->gerentegeneral())
 		<div class="form-group">
 		{!!Form::label('Tipo','Tipo')!!}
-		{!!Form::select('tipoUsuario_id', ['gerentegeneral'=>'Gerente General','gerentemineria'=>'Gerente Mineria','gerenteproductos'=>'Gerente Productos','gerentemaquinaria'=>'Gerente Maquinaria','usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::select('tipoUsuario_id', ['gerentegeneral'=>'Gerente General','gerentemineria'=>'Gerente Mineria','gerenteproductos'=>'Gerente Productos','gerentemaquinaria'=>'Gerente Maquinaria','usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria', 'empleadomineria'=>'Empleado Mineria', 'empleadoproductos'=>'Empleado Productos', 'empleadomaquinaria'=>'Empleado Maquinaria'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
-		@else
+		@endif
+		@if(Auth::user()->gerentemaquinaria())
 		<div class="form-group">
+		{!!Form::label('Tipo','Tipo')!!}
+		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria','empleadomineria'=>'Empleado Mineria', 'empleadoproductos'=>'Empleado Productos', 'empleadomaquinaria'=>'Empleado Maquinaria'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		</div>
+		@endif
+		@if(!Auth::user())
 		{!!Form::label('Tipo','Tipo')!!}
 		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
@@ -44,12 +50,18 @@
 
 		<div class="form-group">
 		{!!Form::label('Region','Region')!!}
-		{!!Form::select('region_id', ['coban'=>'Cobán','progreso'=>'Progreso','quetzaltenango'=>'Quetzaltenango','peten'=>'Petén','zacapa'=>'Zacapa','huehuetenango'=>'Huehuetenango'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::select('region_id', $regiones, null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
 		
 		<div class="form-group">
 			{!!Form::submit('Registrar', ['class'=>'btn btn-primary'])!!}
-			<a href="{{route('admin.auth.login')}}" class="btn btn-info">Regresar</a><hr>
+			@if(Auth::user())
+			<a href="{{route('admin.usuarios.index')}}" class="btn btn-info">
+			Regresar</a><hr>
+			@else
+			<a href="{{route('admin.auth.login')}}" class="btn btn-info">
+			Regresar</a><hr>
+			@endif
 		</div>
 
 	{!! Form::close() !!}

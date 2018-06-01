@@ -31,9 +31,28 @@ class UsuariosTableSeeder extends Seeder
         ]);
             DB::table('tipoUsuario')->insert([
         'descripcion'=>'usuariomaquinaria',
-        ]);   
+        ]); 
+
+        DB::table('tipoUsuario')->insert([
+        'descripcion'=>'empleadomineria',
+        ]);  
+        DB::table('tipoUsuario')->insert([
+        'descripcion'=>'empleadoproductos',
+        ]); 
+        DB::table('tipoUsuario')->insert([
+        'descripcion'=>'empleadomaquinaria',
+        ]); 
             DB::table('region')->insert([
-        'descripcion'=>'coban',
+        'descripcion'=>'Guatemala',
+        ]);
+            DB::table('region')->insert([
+        'descripcion'=>'Xela',
+        ]);
+            DB::table('region')->insert([
+        'descripcion'=>'Zacapa',
+        ]);
+            DB::table('region')->insert([
+        'descripcion'=>'Peten',
         ]);
 
         DB::table ('users')->insert([
@@ -82,12 +101,49 @@ class UsuariosTableSeeder extends Seeder
           'region_id' =>1,
       ]);
 
+
+
         DB::table ('users')->insert([
-          'name'  =>'Usuario de Maquinaria',
-          'email' =>'usuariomaquinaria@systransport.com.gt',
+          'name'  =>'Empleado de Mineria',
+          'email' =>'empleadomineria@systransport.com.gt',
+          'password'  =>bcrypt('empleadomineria'),
+          'tipoUsuario_id'      =>8,
+          'region_id' =>1,
+      ]);
+
+        DB::table ('users')->insert([
+          'name'  =>'Empleado de Productos',
+          'email' =>'empleadoproductos@systransport.com.gt',
+          'password'  =>bcrypt('empleadoproductos'),
+          'tipoUsuario_id'      =>9,
+          'region_id' =>1,
+      ]);
+
+        DB::table ('users')->insert([
+          'name'  =>'Empleado de Maquinaria',
+          'email' =>'empleadomaquinaria@systransport.com.gt',
+          'password'  =>bcrypt('empleadomaquinaria'),
+          'tipoUsuario_id'      =>10,
+          'region_id' =>1,
+      ]);
+
+        DB::table ('users')->insert([
+          'name'  =>'Usuario de Maquinaria 1',
+          'email' =>'usuariomaquinaria1@systransport.com.gt',
+          'password'  =>bcrypt('usuariomaquinaria'),
+          'tipoUsuario_id'      =>7,
+          'region_id' =>1,
+          'user_id'=>9,
+      ]);
+
+        DB::table ('users')->insert([
+          'name'  =>'Usuario de Maquinaria 2',
+          'email' =>'usuariomaquinaria2@systransport.com.gt',
           'password'  =>bcrypt('usuariomaquinaria'),
           'tipoUsuario_id'      =>7,
           'region_id' =>1,
       ]);
+
+
     }
 }

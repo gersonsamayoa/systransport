@@ -47,6 +47,16 @@ class User extends Model implements AuthenticatableContract,
     return $this->belongsTo('App\tipoUsuario', 'tipoUsuario_id');
     }
 
+    public function maquinarias()
+    {
+    return $this->hasMany('App\maquinaria');
+    }
+
+    public function transacciones()
+    {
+    return $this->hasMany('App\transaccion');
+    }
+
     public function gerentegeneral()
     {
         return $this->tipoUsuario->descripcion==='gerentegeneral';
@@ -79,11 +89,29 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->tipoUsuario->descripcion==='usuariomaquinaria';
     }
- 
 
-    public function coban()
+    public function empleadomineria()
     {
-        return $this->region->descripcion==='coban';
+        return $this->tipoUsuario->descripcion==='empleadomineria';
     }
-    
+
+    public function empleadoproductos()
+    {
+        return $this->tipoUsuario->descripcion==='empleadoproductos';
+    }
+
+    public function empleadomaquinaria()
+    {
+        return $this->tipoUsuario->descripcion==='empleadomaquinaria';
+    }
+
+    public function obtenerregion(){
+        return $this->region_id;
+    }
+
+    public function obtenerId()
+    {
+        return $this->id;
+    }
+        
 }

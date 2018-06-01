@@ -17,6 +17,9 @@ class AddTipoRegionUsers extends Migration
              $table->foreign('tipoUsuario_id')->references('id')->on('tipoUsuario')->onDelete('cascade');
              $table->integer('region_id')->unsigned();
              $table->foreign('region_id')->references('id')->on('region')->onDelete('cascade');
+
+             $table->integer('user_id')->unsigned()->nullable();
+             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

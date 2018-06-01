@@ -3,7 +3,6 @@
 @section('content')
 <a href="{{route('admin.usuarios.create')}}" class="btn btn-info">Nuevo Usuario</a>
 <hr>
-@include('flash::message')
 <div class="table-responsive">
 	<table class="table table-striped table-hover">
 		<thead>

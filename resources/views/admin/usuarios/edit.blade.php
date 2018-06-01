@@ -25,18 +25,18 @@
 		@if(Auth::user()->gerentegeneral())
 		<div class="form-group">
 		{!!Form::label('Tipo','Tipo')!!}
-		{!!Form::select('tipoUsuario_id', ['gerentegeneral'=>'Gerente General','gerentemineria'=>'Gerente Mineria','gerenteproductos'=>'Gerente Productos','gerentemaquinaria'=>'Gerente Maquinaria','usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria'], $user->tipoUsuario->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::select('tipoUsuario_id', ['gerentegeneral'=>'Gerente General','gerentemineria'=>'Gerente Mineria','gerenteproductos'=>'Gerente Productos','gerentemaquinaria'=>'Gerente Maquinaria','usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria','empleadomineria'=>'Empleado Maquinaria','empleadoproductos'=>'Empleado Productos','empleadomaquinaria'=>'Empleado Maquinaria'], $user->tipoUsuario->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
 		@else
 		<div class="form-group">
 		{!!Form::label('Tipo','Tipo')!!}
-		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria'], $user->tipoUsuario->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria','empleadomineria'=>'Empleado Maquinaria','empleadoproductos'=>'Empleado Productos','empleadomaquinaria'=>'Empleado Maquinaria'], $user->tipoUsuario->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
 		@endif
 		
 		<div class="form-group">
 		{!!Form::label('region','Region')!!}
-		{!!Form::select('region_id', ['coban'=>'Cobán','progreso'=>'Progreso','quetzaltenango'=>'Quetzaltenango','peten'=>'Petén','zacapa'=>'Zacapa','huehuetenango'=>'Huehuetenango'], $user->region->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::select('region_id', ['Guatemala'=>'Guatemala','Xela'=>'Xela','Zacapa'=>'Zacapa','Peten'=>'Petén'], $user->region->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
 
 		<div class="form-group">

@@ -14,31 +14,39 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       @if(Auth::user())
         <ul class="nav navbar-nav">
-            @if(Auth::user()->gerentemineria() OR Auth::user()->usuariomineria()  OR Auth::user()->gerentegeneral())
+            @if(Auth::user()->gerentemineria() OR Auth::user()->usuariomineria() OR Auth::user()->empleadomineria() OR Auth::user()->gerentegeneral())
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Planta de <br>Extracción</a>
                 <ul class="dropdown-menu" role="menu">
+                  @if (!Auth::user()->usuariomineria())
                   <li> <a href="#">Ingreso de Materias</a></li>
+                  @endif
                   <li> <a href="#">Envios de Materias</a></li>
                 </ul>
             </li>
             @endif
-            @if(Auth::user()->gerenteproductos() OR Auth::user()->usuarioproductos() OR Auth::user()->gerentegeneral())
+            @if(Auth::user()->gerenteproductos() OR Auth::user()->usuarioproductos() OR Auth::user()->empleadoproductos() OR Auth::user()->gerentegeneral())
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Planta de Proceso <br>de Materia prima</a>
                 <ul class="dropdown-menu" role="menu">
+                  @if (!Auth::user()->usuarioproductos())
+                  <li> <a href="#">Ingreso de Productos</a></li>
+                  @endif
                   <li> <a href="#">Venta de Productos</a></li>
                   <li> <a href="#">Envio de productos</a></li>
                 </ul>
             </li>
             @endif
-            @if(Auth::user()->gerentemaquinaria() OR Auth::user()->usuariomaquinaria() OR Auth::user()->gerentegeneral())
+            @if(Auth::user()->gerentemaquinaria() OR Auth::user()->usuariomaquinaria() OR Auth::user()->empleadomaquinaria() OR Auth::user()->gerentegeneral())
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Servicios de <br>Construcción</a>
                 <ul class="dropdown-menu" role="menu">
-                  <li> <a href="#">Construcción</a></li>
-                  <li> <a href="#">Venta y Alquiler</a></li>
-                </ul>
+                  @if (!Auth::user()->usuariomaquinaria())
+                  <li> <a href="{{ route('admin.maquinaria.index') }}">Ingreso de Maquinaria</a></li>
+                  @endif
+                  <li><a href="{{ route('admin.transaccion.index') }}">Comprar/Alquilar Maquinaria</a></li>
+                  <li> <a href="#">Servicios de Construcción</a></li>
+                  </ul>
             </li>
           @endif
 
@@ -64,6 +72,7 @@
         </ul>
          @else
          <ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ route('admin.auth.contacto') }}">Contacto</a></li>
            <li class="dropdown">
            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> </a>
           <li><a href="{{ route('admin.auth.login') }}" title="Login">Login/SignUp <span class="glyphicon glyphicon-user"></span></a></li>
