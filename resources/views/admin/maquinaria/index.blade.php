@@ -1,7 +1,7 @@
 @extends ('admin.template.main')
 @section('title', 'Listado de Maquinaria Disponible')
 @section('content')
-<a href="{{route('admin.maquinaria.create')}}" class="btn btn-info">Nueva Maquina</a>
+<a href="{{route('admin.maquinaria.create')}}" class="btn btn-success">Nueva Maquina</a>
 <hr>
 
 <div class="table-responsive">
@@ -14,6 +14,7 @@
 			<th>Region</th>
 			<th>Estado</th>
 			<th>Tipo</th>
+			<th>Imagen</th>
 			<th>Acción</th>
 		</thead>
 		<tbody>
@@ -21,11 +22,17 @@
 				<tr>
 					<td>{{$maquinaria->id}}</td>
 					<td>{{$maquinaria->placa}}</td>
-					<td>{{$maquinaria->costoPorDia}}</td>
-					<td>{{$maquinaria->precio}}</td>
+					<td>Q{{number_format($maquinaria->costoPorDia, '2','.',',')}}</td>
+					<td>Q{{number_format($maquinaria->precio, '2','.' , ',')}}</td>
+
 					<td>{{ $maquinaria->user->region->descripcion }}</td>
 					<td>{{ $maquinaria->estadoEquipo->descripcion }}</td>
 					<td>{{ $maquinaria->tipoMaquinaria->descripcion }}</td>
+					@if($maquinaria->imagen)
+					<td><img src="/images/{{ $maquinaria->imagen }}" width="50px"></td>
+					@else
+					<td></td>
+					@endif
 					<td><a href="{{route('admin.maquinaria.edit', $maquinaria->id)}}" class="btn btn-warning"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>
 					<a href="{{ route('admin.maquinaria.destroy', $maquinaria->id)}}" onclick="return confirm('¿Seguro que desaes eliminarlo?')" class="btn btn-danger"><span class="glyphicon glyphicon-record" aria-hidden="true"></span></a></td>
 				</tr>

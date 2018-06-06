@@ -39,26 +39,44 @@
             @endif
             @if(Auth::user()->gerentemaquinaria() OR Auth::user()->usuariomaquinaria() OR Auth::user()->empleadomaquinaria() OR Auth::user()->gerentegeneral())
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Servicios de <br>Construcción</a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Alquiler o<br>Venta</a>
                 <ul class="dropdown-menu" role="menu">
                   @if (!Auth::user()->usuariomaquinaria())
                   <li> <a href="{{ route('admin.maquinaria.index') }}">Ingreso de Maquinaria</a></li>
                   @endif
                   <li><a href="{{ route('admin.transaccion.index') }}">Comprar/Alquilar Maquinaria</a></li>
-                  <li> <a href="#">Servicios de Construcción</a></li>
                   </ul>
             </li>
           @endif
 
-          @if(Auth::user()->gerentemineria() OR Auth::user()->gerenteproductos()  OR Auth::user()->gerentemaquinaria() OR Auth::user()->gerentegeneral())
+          @if(Auth::user()->gerenteservicios() OR Auth::user()->usuarioservicios() OR Auth::user()->empleadoservicios() OR Auth::user()->gerentegeneral())
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Servicios de <br>Construcción</a>
+                <ul class="dropdown-menu" role="menu">
+                  @if (!Auth::user()->usuarioservicios())
+                  <li> <a href="#">Ingreso de Nuevos Servicios</a></li>
+                  @endif
+                  <li><a href="#">Asignar Servicios a Clientes</a></li>
+                 </ul>
+            </li>
+          @endif
+
+          @if(Auth::user()->gerentemineria() OR Auth::user()->gerenteproductos()  OR Auth::user()->gerentemaquinaria() OR Auth::user()->gerentegeneral() OR Auth::user()->gerenteservicios() )
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Gestión de<br>Usuarios</a>
                 <ul class="dropdown-menu" role="menu">
                   <li> <a href="{{ route('admin.usuarios.index') }}">Listado de Usuarios</a></li>
                 </ul>
             </li>
+
             @endif
-        </ul>
+            @if(Auth::user()->empleadomineria() OR Auth::user()->empleadomaquinaria() OR Auth::user()->empleadoproductos() OR Auth::user()->empleadoservicios())
+            
+               
+                  <li> <a href="{{ route('admin.usuarios.index') }}">Mis Clientes</a></li>
+                
+            @endif
+          </ul>
          @endif
 
          @if(Auth::user())

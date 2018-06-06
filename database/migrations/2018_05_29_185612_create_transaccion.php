@@ -14,7 +14,8 @@ class CreateTransaccion extends Migration
     {
         Schema::create('transaccion', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('cantidadDias');
+            $table->date('fecha');
+            $table->integer('cantidadDias')->nullable();
             $table->float('total', 8,2);
 
             $table->integer('user_id')->unsigned();

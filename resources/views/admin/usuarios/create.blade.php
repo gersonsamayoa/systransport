@@ -33,25 +33,42 @@
 		@if(Auth::user()->gerentegeneral())
 		<div class="form-group">
 		{!!Form::label('Tipo','Tipo')!!}
-		{!!Form::select('tipoUsuario_id', ['gerentegeneral'=>'Gerente General','gerentemineria'=>'Gerente Mineria','gerenteproductos'=>'Gerente Productos','gerentemaquinaria'=>'Gerente Maquinaria','usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria', 'empleadomineria'=>'Empleado Mineria', 'empleadoproductos'=>'Empleado Productos', 'empleadomaquinaria'=>'Empleado Maquinaria'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::select('tipoUsuario_id', ['gerentegeneral'=>'Gerente General','gerentemineria'=>'Gerente Mineria','gerenteproductos'=>'Gerente Productos','gerentemaquinaria'=>'Gerente Maquinaria','gerenteservicios'=>'Gerente Servicios'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
 		@endif
-		@if(Auth::user()->gerentemaquinaria())
+		@if(Auth::user()->gerentemaquinaria() OR Auth::user()->gerenteproductos() OR Auth::user()->gerentemineria() OR Auth::user()->gerenteservicios())
 		<div class="form-group">
 		{!!Form::label('Tipo','Tipo')!!}
-		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria','empleadomineria'=>'Empleado Mineria', 'empleadoproductos'=>'Empleado Productos', 'empleadomaquinaria'=>'Empleado Maquinaria'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria','usuarioservicios'=>'Usuario Servicios','empleadomineria'=>'Empleado Mineria', 'empleadoproductos'=>'Empleado Productos', 'empleadomaquinaria'=>'Empleado Maquinaria','empleadoservicios'=>'Empleado Servicios'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
 		@endif
+		@if(Auth::user()->empleadomaquinaria() OR Auth::user()->empleadoproductos() OR Auth::user()->empleadomineria() OR Auth::user()->empleadoservicios())
+		<div class="form-group">
+		{!!Form::label('Tipo','Tipo')!!}
+		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		</div>
+		@endif
+
 		@if(!Auth::user())
 		{!!Form::label('Tipo','Tipo')!!}
 		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria'], null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
 		@endif
 
+		@if(!(Auth::user()->gerentegeneral()))
+		<div class="invisible">
 		<div class="form-group">
 		{!!Form::label('Region','Region')!!}
-		{!!Form::select('region_id', $regiones, null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::text('region_id', Auth::user()->obtenerregion(), ['class'=>'form-control', 'placeholder'=>'example@correo.com', 'readonly'])!!}
 		</div>
+		</div>
+		@else
+		<div class="form-group">
+		{!!Form::label('Region','Region')!!}
+		{!!Form::select('region_id', $regiones, Auth::user()->obtenerregion(), ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		</div>
+		@endif
+
 		
 		<div class="form-group">
 			{!!Form::submit('Registrar', ['class'=>'btn btn-primary'])!!}

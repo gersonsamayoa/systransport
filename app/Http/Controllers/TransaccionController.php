@@ -8,17 +8,22 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\transaccion;
 use App\tipoTransaccion;
+use App\estadoEquipo;
+use App\tipoMaquinaria;
 use App\maquinaria;
+use Auth;
 
 class TransaccionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
+        if(!(Auth::user()->user_id))
+        {
+        flash('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Lo sentimos :-( aun no puedes realizar ninguna transacción, espera un poco mas...')->error()->important();
+        return view('index');
+        }
+
         $transacciones= transaccion::orderBy('id', 'ASC')
                                     ->paginate(4);
         
@@ -33,11 +38,15 @@ class TransaccionController extends Controller
      */
     public function create()
     {
-         $tipoTransacciones=tipoTransaccion::select('id', 'descripcion')->orderby('id','ASC')->lists('descripcion','id');
 
-         $maquinarias=maquinaria::select('id', 'tipoMaquinaria_id')->orderby('id','ASC')->lists('tipoMaquinaria_id','id');
+        $tipoTransacciones=tipoTransaccion::select('id', 'descripcion')->orderby('id','ASC')->lists('descripcion','id');
 
-        return view('admin.transaccion.create', compact('tipoTransacciones', 'maquinarias'));
+         $usuario=Auth::user();
+        $maquinarias= maquinaria::orderBy('id', 'ASC')
+                                    ->where('region_id',$usuario->region_id)->get();
+       
+
+        return view('admin.transaccion.listmaquinarias', compact('tipoTransacciones', 'maquinarias'));
     }
 
     /**
@@ -59,7 +68,12 @@ class TransaccionController extends Controller
      */
     public function show($id)
     {
-        //
+       $usuario=Auth::user()->obtenerId();
+        $estadoEquipo=estadoEquipo::select('id', 'descripcion')->orderby('id','ASC')->lists('descripcion','id');
+        $tipoMaquinaria=tipoMaquinaria::select('id', 'descripcion')->orderby('id','ASC')->lists('descripcion','id');
+
+        $maquinaria= maquinaria::find($id);
+        return view('admin.maquinaria.edit', compact('maquinaria','usuario', 'estadoEquipo', 'tipoMaquinaria'));
     }
 
     /**

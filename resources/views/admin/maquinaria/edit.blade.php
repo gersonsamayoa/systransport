@@ -3,7 +3,7 @@
 @section('title','Editar Maquinaria '. $maquinaria->placa)
 
 @section('content')
-	{!! Form::open(['route' =>['admin.maquinaria.update', $maquinaria->id], 'method'=>'PUT']) !!}
+	{!! Form::open(['route' =>['admin.maquinaria.update', $maquinaria->id], 'method'=>'PUT', 'files' =>true]) !!}
 
 	<div class="form-group">
 	{!!Form::label('placa', 'No. Placa')!!}
@@ -32,6 +32,11 @@
 	<div class="form-group">
 		{!!Form::label('tipoMaquinaria','Tipo de Maquinaria')!!}
 		{!!Form::select('tipoMaquinaria_id',$tipoMaquinaria, $maquinaria->tipoMaquinaria_id, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+	</div>
+
+	<div class="form-group">
+		{!!Form::label('imagen','Imagen')!!}
+		{!!Form::file('imagen') !!}
 	</div>
 
 

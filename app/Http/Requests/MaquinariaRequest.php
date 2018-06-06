@@ -24,7 +24,8 @@ class MaquinariaRequest extends Request
     public function rules()
     {
         return [
-             'placa'=> 'required|unique:maquinaria'
+             'placa'=> 'required|unique:maquinaria',
+             'imagen'=> 'image:maquinaria'
         ];
     }
 }

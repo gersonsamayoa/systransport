@@ -1,19 +1,30 @@
-@extends ('admin.template.main')
-@section('title', 'Listado de usuarios')
-@section('content')
-<a href="{{route('admin.usuarios.create')}}" class="btn btn-info">Nuevo Usuario</a>
-<a href="{{route('admin.usuarios.informes')}}" class="btn btn-success">Generar Informe</a>
-<hr>
-<div class="table-responsive">
-	<table class="table table-striped table-hover">
-		<thead>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Vaciado</title>
+    <style type="text/css">
+    	html {
+		margin: 0;
+		}
+		body {
+		margin: 10mm 7mm 10mm 7mm;
+		}
+    </style>
+  </head>
+  <body>
+  	<h1>Listado de Usuarios</h1>
+	 <table width="100%" border=1 cellspacing=0 cellpadding=2 bordercolor="666633">
+
+	<thead>
+		<tr>
 			<th class="col-sm-1">ID</th>
 			<th class="col-sm-2">Nombre</th>
 			<th class="col-sm-2">Correo</th>
 			<th class="col-sm-1">Tipo</th>
 			<th class="col-sm-1">Region</th>
 			<th class="col-sm-2">Empleado Asignado</th>
-			<th class="col-sm-2">Acción</th>
+		</tr>
 		</thead>
 		<tbody>
 			@foreach($usuarios as $user)
@@ -41,19 +52,10 @@
 					<td>{{ $user->parent->name}}</td>
 					@endif
 				
-					<td><a href="{{route('admin.usuarios.edit', $user->id)}}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-wrench"  aria-hidden="true"></span></a>
-
-					@if(!($user->user_id))
-					<a href="{{route('admin.usuarios.assign', $user->id)}}" class="btn btn-success" title="Asignar"><span class="glyphicon glyphicon-ok" aria-hidden="true"> </span></a>
-					@endif
-
-					<a href="{{ route('admin.usuarios.destroy', $user->id)}}" onclick="return confirm('¿Seguro que desaes eliminarlo?')" class="btn btn-danger" title="Eliminar"><span class="glyphicon glyphicon-record"  aria-hidden="true" ></span></a></td>
+					
 
 				</tr>
 			@endforeach
 		</tbody>
 	</table>
 </div>
-	{!!$usuarios->render()!!}
-
-@endsection

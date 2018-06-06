@@ -29,7 +29,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'tipoUsuario_id', 'region_id'];
+    protected $fillable = ['name', 'email', 'password', 'tipoUsuario_id', 'region_id', 'user_id'];
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -56,7 +56,17 @@ class User extends Model implements AuthenticatableContract,
     {
     return $this->hasMany('App\transaccion');
     }
+        /*Funcion Recursiva*/
+    public function parent()
+    {
+    return $this->belongsTo('App\User','user_id');
+    }
 
+    public function parents()
+    {
+    return $this->hasMany('App\User', 'user_id');
+    }
+    /*Funcion que devuelve true o false dependiendo el rol que queremos*/
     public function gerentegeneral()
     {
         return $this->tipoUsuario->descripcion==='gerentegeneral';
@@ -76,6 +86,11 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->tipoUsuario->descripcion==='gerentemaquinaria';
     }
+    public function gerenteservicios()
+    {
+        return $this->tipoUsuario->descripcion==='gerenteservicios';
+    }
+
      public function usuariomineria()
     {
         return $this->tipoUsuario->descripcion==='usuariomineria';
@@ -88,6 +103,11 @@ class User extends Model implements AuthenticatableContract,
     public function usuariomaquinaria()
     {
         return $this->tipoUsuario->descripcion==='usuariomaquinaria';
+    }
+
+    public function usuarioservicios()
+    {
+        return $this->tipoUsuario->descripcion==='usuarioservicios';
     }
 
     public function empleadomineria()
@@ -105,6 +125,12 @@ class User extends Model implements AuthenticatableContract,
         return $this->tipoUsuario->descripcion==='empleadomaquinaria';
     }
 
+    public function empleadoservicios()
+    {
+        return $this->tipoUsuario->descripcion==='empleadoservicios';
+    }
+
+    /*Funciones especiales*/
     public function obtenerregion(){
         return $this->region_id;
     }
@@ -112,6 +138,16 @@ class User extends Model implements AuthenticatableContract,
     public function obtenerId()
     {
         return $this->id;
+    }
+
+    public function obtenerUserId()
+    {
+        return $this->user_id;
+    }
+
+    public function obtenerTipoUsuario_id()
+    {
+        return $this->tipoUsuario_id;
     }
         
 }

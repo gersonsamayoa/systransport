@@ -8,7 +8,7 @@ class maquinaria extends Model
 {
     protected $table = 'maquinaria';
 
-     protected $fillable = ['id', 'placa', 'costoPorDia', 'precio', 'user_id','estadoEquipo_id', 'tipoMaquinaria_id'];
+     protected $fillable = ['id', 'placa', 'costoPorDia', 'precio', 'imagen', 'user_id','estadoEquipo_id', 'tipoMaquinaria_id', 'region_id'];
 
 	public function user()
     {

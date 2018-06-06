@@ -1,7 +1,7 @@
 @extends ('admin.template.main')
 @section('title', 'Listado de Transacciones')
 @section('content')
-<a href="{{route('admin.transaccion.create')}}" class="btn btn-info">Nueva Maquina</a>
+<a href="{{route('admin.transaccion.create')}}" class="btn btn-info">Nueva Compra o Alquiler</a>
 <hr>
 
 <div class="table-responsive">

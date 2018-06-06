@@ -14,25 +14,29 @@
 	</div>
 	@endif
 
-	{!! Form::open(['route'=>'admin.maquinaria.store', 'method'=>'POST']) !!}
+	{!! Form::open(['route'=>'admin.maquinaria.store', 'method'=>'POST', 'files' =>true]) !!}
 
 	<div class="form-group">
 	{!!Form::label('placa', 'No. Placa')!!}
-	{!!Form::text('placa',null,['class'=>'form-control','placeholder'=> 'Descripcion', 'required'])!!}
+	{!!Form::text('placa',null,['class'=>'form-control','', 'required'])!!}
 	</div>
 
 	<div class="form-group">
 	{!!Form::label('costoPorDia', 'Costo de alquiler por Día')!!}
-	Q{!!Form::number('costoPorDia',null,['class'=>'form-control', 'step'=>'0.05','placeholder'=> '####.##', 'required'])!!}
+	Q{!!Form::number('costoPorDia',null,['class'=>'form-control', 'step'=>'0.05','placeholder'=> '####.##', ''])!!}
 	</div>
 
 	<div class="form-group">
 	{!!Form::label('precio', 'Precio para la venta')!!}
-	Q{!!Form::number('precio',null,['class'=>'form-control', 'step'=>'0.05','placeholder'=> '####.##', 'required'])!!}
+	Q{!!Form::number('precio',null,['class'=>'form-control', 'step'=>'0.05','placeholder'=> '####.##', ''])!!}
 	</div>
 
 	<div class="form-group">
-	{!!Form::hidden('user_id', $usuario, ['class'=>'form-control'])!!}
+	{!!Form::hidden('region_id', $usuario->region_id, ['class'=>'form-control'])!!}
+	</div>
+
+	<div class="form-group">
+	{!!Form::hidden('user_id', $usuario->id, ['class'=>'form-control'])!!}
 	</div>
 
 	<div class="form-group">
@@ -43,6 +47,11 @@
 	<div class="form-group">
 		{!!Form::label('tipoMaquinaria','Tipo de Maquinaria')!!}
 		{!!Form::select('tipoMaquinaria_id',$tipoMaquinaria, null, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+	</div>
+
+	<div class="form-group">
+		{!!Form::label('imagen','Imagen')!!}
+		{!!Form::file('imagen') !!}
 	</div>
 
 

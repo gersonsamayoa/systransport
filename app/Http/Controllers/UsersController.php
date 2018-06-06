@@ -15,56 +15,74 @@ use App\Http\Requests\UserRequest;
 
 class UsersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {   
+        /*Obtenemos id de tipo de usuario*/
+        $usuariomaquinaria= tipoUsuario::find(1)->where('descripcion','usuariomaquinaria')->first();
         $usuariomineria= tipoUsuario::find(1)->where('descripcion','usuariomineria')->first();
         $usuarioproductos= tipoUsuario::find(1)->where('descripcion','usuarioproductos')->first();
-        $usuariomaquinaria= tipoUsuario::find(1)->where('descripcion','usuariomaquinaria')->first();
-         $empleadomineria= tipoUsuario::find(1)->where('descripcion','empleadomineria')->first();
-         $empleadoproductos= tipoUsuario::find(1)->where('descripcion','empleadoproductos')->first();
-        $empleadomaquinaria= tipoUsuario::find(1)->where('descripcion','empleadomaquinaria')->first();
+        $usuarioservicios= tipoUsuario::find(1)->where('descripcion','usuarioservicios')->first();
+
 
         $region=Auth::user()->obtenerregion();
-        
+       
+        $usuarios=User::where('user_id', Auth::user()->obtenerId())->paginate(4);
+        /*Muestra clientes no asignados segun su region y su rol en el negocio*/
+        if(Auth::user()->empleadomaquinaria()){
+        $usuarios=User::where('user_id', null)
+                        ->Where('region_id', $region)
+                        ->Where('tipoUsuario_id', $usuariomaquinaria->id)
+                        ->orWhere('user_id', Auth::user()->obtenerId())
+                        ->Where('tipoUsuario_id', $usuariomaquinaria->id)
+                        ->Where('region_id', $region)
+                        ->paginate(4); 
+        }
 
-        if (Auth::user()->gerentemineria())
-        {
-        $usuarios= user::where('tipoUsuario_id', $usuariomineria->id)
+        if(Auth::user()->empleadoproductos()){
+        $usuarios=User::where('user_id', null)
                         ->Where('region_id', $region)
-                        ->orWhere('tipoUsuario_id', $empleadomineria->id)
+                        ->Where('tipoUsuario_id', $usuarioproductos->id)
+                        ->orWhere('user_id', Auth::user()->obtenerId())
+                        ->Where('tipoUsuario_id', $usuarioproductos->id)
                         ->Where('region_id', $region)
-                        ->orderBy('id', 'ASC')->paginate(4);       
+                        ->paginate(4); 
         }
-        else if(Auth::user()->gerenteproductos()){
-            $usuarios= user::where('tipoUsuario_id', $usuarioproductos->id)
-                            ->Where('region_id', $region)
-                            ->orWhere('tipoUsuario_id', $empleadoproductos->id)
-                            ->Where('region_id', $region)
-                            ->orderBy('id', 'ASC')->paginate(4);      
+
+         if(Auth::user()->empleadomineria()){
+        $usuarios=User::where('user_id', null)
+                        ->Where('region_id', $region)
+                        ->Where('tipoUsuario_id', $usuariomineria->id)
+                        ->orWhere('user_id', Auth::user()->obtenerId())
+                        ->Where('tipoUsuario_id', $usuariomineria->id)
+                        ->Where('region_id', $region)
+                        ->paginate(4); 
         }
-        else if(Auth::user()->gerentemaquinaria()){
-            $usuarios= user::where('tipoUsuario_id', $usuariomaquinaria->id)
-                            ->Where('region_id', $region)
-                            ->orWhere('tipoUsuario_id', $empleadomaquinaria->id)
-                            ->Where('region_id', $region)
-                            ->orderBy('id', 'ASC')->paginate(4);     
+
+          if(Auth::user()->empleadoservicios()){
+        $usuarios=User::where('user_id', null)
+                        ->Where('region_id', $region)
+                        ->Where('tipoUsuario_id', $usuarioservicios->id)
+                        ->orWhere('user_id', Auth::user()->obtenerId())
+                        ->Where('tipoUsuario_id', $usuarioservicios->id)
+                        ->Where('region_id', $region)
+                        ->paginate(4); 
         }
-        else {
-            $usuarios= user::orderBy('id', 'ASC')->paginate(4); 
-        }
+
+        /*Notificación de usuarios sin empleado asignado*/
+        $contador=0;
+        foreach($usuarios as $user){
+                if(!($user->user_id)){
+                    $contador=$contador+1;
+                }
+            }
+        if($contador>0){
+        flash('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Existen '. $contador .  ' usuarios sin asignar')->error()->important();}
+
         return view('admin.usuarios.index', compact ('usuarios'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function create()
     {
          $regiones=region::select('id', 'descripcion')->orderby('id','ASC')->lists('descripcion','id');
@@ -90,10 +108,16 @@ class UsersController extends Controller
         $usuario=new User($request->all());
         $usuario->password=bcrypt($request->password);
         $usuario->tipoUsuario_id=$tipoUsuario->id;
+        
+        if(Auth::user()){
+        $usuario->user_id=Auth::user()->obtenerId();
+        }
            
         $usuario->save();
 
         flash("Se ha registrado ". $usuario->name . " de forma exitosa")->success()->important();
+
+        /*Redireccionamiento si es usuario registrado*/
         if(Auth::user()){
         return redirect()->route('admin.usuarios.index');}
         else{
@@ -121,9 +145,25 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-         $tipo=tipoUsuario::orderby('id','ASC')->lists('descripcion', 'descripcion');
+        $tipo=tipoUsuario::orderby('id','ASC')->lists('descripcion', 'descripcion');
         $user= User::find($id);
         return view('admin.usuarios.edit', compact('user', 'tipo'));
+    }
+
+    public function assign($id)
+    {
+        $empleadomaquinaria= tipoUsuario::find(1)->where('descripcion','empleadomaquinaria')->first();
+        $region=Auth::user()->obtenerregion();
+        
+        $empleados= User::where('tipoUsuario_id', Auth::user()->obtenerTipoUsuario_id())
+                        ->Where('region_id', $region)
+                        ->lists('name', 'id');
+        $tipo=tipoUsuario::orderby('id','ASC')->lists('descripcion', 'descripcion');
+        $regiones=region::select('id', 'descripcion')->orderby('id','ASC')->lists('descripcion','id');
+        $user= User::find($id);
+
+        
+        return view('admin.usuarios.assign', compact('user', 'tipo', 'regiones', 'empleados'));
     }
 
     /**
@@ -152,6 +192,21 @@ class UsersController extends Controller
         $usuario->save();
 
         flash('El usuario '. $usuario->name . ' ha sido editado con exito!')->warning()->important();
+        return redirect()->route('admin.usuarios.index');
+    }
+
+    public function updateassing(Request $request, $id)
+    {
+        $tipoUsuario= tipoUsuario::find(1)->where('descripcion',$request->tipoUsuario_id)->first();
+        $region= region::find(1)->where('descripcion',$request->region_id)->first();
+
+        $usuario=user::Find($id);
+
+        $usuario->user_id=$request->empleado_id;
+        
+        $usuario->save();
+
+        flash('El usuario '. $usuario->name . ' ha sido asignado con exito!')->warning()->important();
         return redirect()->route('admin.usuarios.index');
     }
 

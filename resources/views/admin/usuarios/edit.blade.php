@@ -25,12 +25,19 @@
 		@if(Auth::user()->gerentegeneral())
 		<div class="form-group">
 		{!!Form::label('Tipo','Tipo')!!}
-		{!!Form::select('tipoUsuario_id', ['gerentegeneral'=>'Gerente General','gerentemineria'=>'Gerente Mineria','gerenteproductos'=>'Gerente Productos','gerentemaquinaria'=>'Gerente Maquinaria','usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria','empleadomineria'=>'Empleado Maquinaria','empleadoproductos'=>'Empleado Productos','empleadomaquinaria'=>'Empleado Maquinaria'], $user->tipoUsuario->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::select('tipoUsuario_id', ['gerentegeneral'=>'Gerente General','gerentemineria'=>'Gerente Mineria','gerenteproductos'=>'Gerente Productos','gerentemaquinaria'=>'Gerente Maquinaria','gerenteservicios'=>'Gerente Servicios'], $user->tipoUsuario->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
-		@else
+		@endif
+		@if(Auth::user()->gerentemaquinaria() OR Auth::user()->gerenteproductos() OR Auth::user()->gerentemineria() OR Auth::user()->gerenteservicios())
 		<div class="form-group">
 		{!!Form::label('Tipo','Tipo')!!}
-		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria','empleadomineria'=>'Empleado Maquinaria','empleadoproductos'=>'Empleado Productos','empleadomaquinaria'=>'Empleado Maquinaria'], $user->tipoUsuario->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria','usuarioservicios'=>'Usuario Servicios', 'empleadomineria'=>'Empleado Mineria', 'empleadoproductos'=>'Empleado Productos', 'empleadomaquinaria'=>'Empleado Maquinaria', 'empleadoservicios'=>'Empleado Servicios'], $user->tipoUsuario->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
+		</div>
+		@endif
+		@if(Auth::user()->empleadomaquinaria() OR Auth::user()->empleadoproductos() OR Auth::user()->empleadomineria() OR Auth::user()->empleadoservicios())
+		<div class="form-group">
+		{!!Form::label('Tipo','Tipo')!!}
+		{!!Form::select('tipoUsuario_id', ['usuariomineria'=>'Usuario Mineria','usuarioproductos'=>'Usuario Productos','usuariomaquinaria'=>'Usuario Maquinaria', 'usuarioservicios'=>'Usuario Servicios'], $user->tipoUsuario->descripcion, ['class'=>'form-control','placeholder'=>'Selecciona una opción...', 'required'])!!}
 		</div>
 		@endif
 		

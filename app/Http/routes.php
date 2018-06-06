@@ -21,8 +21,21 @@ Route::group(['prefix'=>'admin'], function() {
 		'uses'	=>'UsersController@destroy',
 		'as' 	=>'admin.usuarios.destroy'
 		]);
+		Route::get('usuarios/{id}/assign', [
+		'uses'	=>'UsersController@assign',
+		'as' 	=>'admin.usuarios.assign'
+		]);
+		Route::put('usuarios/{id}/assign', [
+		'uses'	=>'UsersController@updateassing',
+		'as' 	=>'admin.usuarios.updateassing'
+		]);
 
-	});
+		Route::get('usuarios/{id}/informes', [
+		'uses'	=>'InformesController@usuarios',
+		'as' 	=>'admin.usuarios.informes'
+		]);
+		
+		});
 /*Rutas para gestion de maquinaria*/
 Route::group(['prefix'=>'admin','middleware' => 'auth'], function() {
 		Route::resource('maquinaria', 'MaquinariaController');
