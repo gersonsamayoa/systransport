@@ -11,6 +11,7 @@ use App\tipoTransaccion;
 use App\estadoEquipo;
 use App\tipoMaquinaria;
 use App\maquinaria;
+use App\user;
 use Auth;
 
 class TransaccionController extends Controller
@@ -18,16 +19,38 @@ class TransaccionController extends Controller
 
     public function index()
     {
+        if(Auth::user()->gerentegeneral()){
+           $transacciones= transaccion::orderBy('id', 'ASC')
+                                ->paginate(4);
+
+         return view('admin.transaccion.index', compact('transacciones'));    
+                            }
+     
+
         if(!(Auth::user()->user_id))
         {
         flash('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Lo sentimos :-( aun no puedes realizar ninguna transacción, espera un poco mas...')->error()->important();
         return view('index');
         }
+        /*Obtenemos todos los usuarios a su cargo*/
+        $trans=Auth::user()->parents()->select('id')->get();
+        /*Lo convertimos en array*/
+        $plucked=$trans->pluck('id');
 
         $transacciones= transaccion::orderBy('id', 'ASC')
-                                    ->paginate(4);
-        
-
+                                ->WhereIn('user_id', $plucked)
+                                ->orWhere('user_id', Auth::user()->id)
+                                ->paginate(4);
+        if(Auth::user()->gerentemaquinaria()){
+            $trans=user::where('region_id', Auth::user()->region_id)
+                        ->select('id')->get();
+            $plucked=$trans->pluck('id');
+            $transacciones= transaccion::orderBy('id', 'ASC')
+                                ->WhereIn('user_id', $plucked)
+                                ->orWhere('user_id', Auth::user()->id)
+                                ->paginate(4);
+        }
+                                    
         return view('admin.transaccion.index', compact('transacciones'));
     }
 
@@ -43,8 +66,10 @@ class TransaccionController extends Controller
 
          $usuario=Auth::user();
         $maquinarias= maquinaria::orderBy('id', 'ASC')
-                                    ->where('region_id',$usuario->region_id)->get();
-       
+                                    ->where('region_id',$usuario->region_id)
+                                    ->whereIn('estadoEquipo_id', [1,4])
+                                    ->get();
+     
 
         return view('admin.transaccion.listmaquinarias', compact('tipoTransacciones', 'maquinarias'));
     }
@@ -57,56 +82,85 @@ class TransaccionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $transaccion=new transaccion();
+        $transaccion->fecha=$request->fecha;
+        $transaccion->cantidadDias=0;
+
+        $maquinaria= maquinaria::find($request->maquinaria_id);
+        $maquinaria->estadoEquipo_id=5;
+        $maquinaria->save();
+
+        $transaccion->total=$maquinaria->precio;
+
+        $transaccion->user_id=Auth::user()->obtenerId();
+        $transaccion->tipoTransaccion_id=$request->tipoTransaccion_id;
+        $transaccion->maquinaria_id=$request->maquinaria_id;
+        $transaccion->estadoTransaccion_id=1;
+        $transaccion->save();
+        
+
+        flash("Se ha registrado tu compra de la maquinaria: ". $maquinaria->placa . " de forma exitosa, espera confirmación")->success()->important();
+
+        return redirect()->route('admin.transaccion.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+     public function show($id)
     {
-       $usuario=Auth::user()->obtenerId();
-        $estadoEquipo=estadoEquipo::select('id', 'descripcion')->orderby('id','ASC')->lists('descripcion','id');
-        $tipoMaquinaria=tipoMaquinaria::select('id', 'descripcion')->orderby('id','ASC')->lists('descripcion','id');
+      
+    }
+
+    public function comprar($id, $tipo)
+    {
+        $usuario=Auth::user()->obtenerId();
+        $tipoTransaccion=tipoTransaccion::where('descripcion',$tipo)->select('id')->first();
 
         $maquinaria= maquinaria::find($id);
-        return view('admin.maquinaria.edit', compact('maquinaria','usuario', 'estadoEquipo', 'tipoMaquinaria'));
+        return view('admin.transaccion.comprar', compact('maquinaria','usuario', 'tipoTransaccion'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+     public function alquilar($id, $tipo)
+    {
+        dd('si');
+        $usuario=Auth::user()->obtenerId();
+        $tipoTransaccion=tipoTransaccion::where('descripcion',$tipo)->select('id')->first();
+
+        $maquinaria= maquinaria::find($id);
+        return view('admin.transaccion.comprar', compact('maquinaria','usuario', 'tipoTransaccion'));
+    }
+
     public function edit($id)
     {
-        //
+        $usuario=Auth::user()->obtenerId();
+        $transaccion= transaccion::find($id);
+        $maquinaria=maquinaria::find($transaccion->maquinaria_id);
+        return view('admin.transaccion.validar', compact('usuario', 'transaccion', 'maquinaria'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
-        //
+
+        $transaccion=transaccion::Find($id);
+        $transaccion->estadoTransaccion_id=2;
+        $transaccion->save();
+
+      flash('La transaccion de '. $transaccion->user->name . ' ha sido autorizada con éxito')->warning()->important();
+      return redirect()->route('admin.transaccion.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        //
+
+        $transaccion= transaccion::find($id);
+
+        /*$maquinaria= maquinaria::find($transaccion->maquinaria_id);
+        $maquinaria->estadoEquipo_id=1;*/
+
+        $transaccion->delete();
+
+        flash('La transaccion ' . $transaccion->id . ' a sido borrado de forma exitosa')->error()->important();
+        return redirect()->route('admin.transaccion.index');
     }
 }

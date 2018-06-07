@@ -33,8 +33,8 @@
 					@else
 					<td></td>
 					@endif
-					<td><a href="{{route('admin.maquinaria.edit', $maquinaria->id)}}" class="btn btn-warning"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>
-					<a href="{{ route('admin.maquinaria.destroy', $maquinaria->id)}}" onclick="return confirm('¿Seguro que desaes eliminarlo?')" class="btn btn-danger"><span class="glyphicon glyphicon-record" aria-hidden="true"></span></a></td>
+					<td><a href="{{route('admin.maquinaria.edit', $maquinaria->id)}}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-wrench"  aria-hidden="true"></span></a>
+					<a href="{{ route('admin.maquinaria.destroy', $maquinaria->id)}}" onclick="return confirm('¿Seguro que desaes eliminarlo?')" class="btn btn-danger" title="Eliminar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
 				</tr>
 			@endforeach
 		</tbody>

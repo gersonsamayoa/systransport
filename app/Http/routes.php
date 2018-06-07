@@ -49,6 +49,17 @@ Route::group(['prefix'=>'admin','middleware' => 'auth'], function() {
 		'uses'	=>'TransaccionController@destroy',
 		'as' 	=>'admin.transaccion.destroy'
 		]);
+
+		Route::get('transaccion/comprar/{id}/{tipo}', [
+		'uses'	=>'TransaccionController@comprar',
+		'as' 	=>'admin.transaccion.comprar'
+		]);
+
+		Route::get('transaccion/alquilar/{id}/{tipo}', [
+		'uses'	=>'TransaccionController@alquilar',
+		'as' 	=>'admin.transaccion.alquilar'
+		]);
+
 	});
 			/*Rutas para inicio de sesion*/
 			Route::get('admin/auth/login',[

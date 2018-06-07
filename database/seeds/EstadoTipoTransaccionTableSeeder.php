@@ -18,12 +18,5 @@ class EstadoTipoTransaccionTableSeeder extends Seeder
         'descripcion'=>'Finalizada',
         ]);
 
-        DB::table('tipoTransaccion')->insert([
-        'descripcion'=>'Alquiler',
-        ]);
-
-        DB::table('tipoTransaccion')->insert([
-        'descripcion'=>'Compra',
-        ]);
     }
 }

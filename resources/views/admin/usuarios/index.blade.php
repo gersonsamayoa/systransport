@@ -47,7 +47,7 @@
 					<a href="{{route('admin.usuarios.assign', $user->id)}}" class="btn btn-success" title="Asignar"><span class="glyphicon glyphicon-ok" aria-hidden="true"> </span></a>
 					@endif
 
-					<a href="{{ route('admin.usuarios.destroy', $user->id)}}" onclick="return confirm('¿Seguro que desaes eliminarlo?')" class="btn btn-danger" title="Eliminar"><span class="glyphicon glyphicon-record"  aria-hidden="true" ></span></a></td>
+					<a href="{{ route('admin.usuarios.destroy', $user->id)}}" onclick="return confirm('¿Seguro que desaes eliminarlo?')" class="btn btn-danger" title="Eliminar"><span class="glyphicon glyphicon-remove"  aria-hidden="true" ></span></a></td>
 
 				</tr>
 			@endforeach

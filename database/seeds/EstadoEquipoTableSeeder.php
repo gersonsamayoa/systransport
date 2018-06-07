@@ -14,6 +14,7 @@ class EstadoEquipoTableSeeder extends Seeder
         DB::table('EstadoEquipo')->insert([
         'descripcion'=>'Nuevo',
         ]);
+        
         DB::table('EstadoEquipo')->insert([
         'descripcion'=>'En Reparación',
         ]);
@@ -24,6 +25,10 @@ class EstadoEquipoTableSeeder extends Seeder
 
         DB::table('EstadoEquipo')->insert([
         'descripcion'=>'Disponible',
+        ]);
+
+        DB::table('EstadoEquipo')->insert([
+        'descripcion'=>'No Disponible',
         ]);
     }
 }

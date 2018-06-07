@@ -44,7 +44,7 @@
                   @if (!Auth::user()->usuariomaquinaria())
                   <li> <a href="{{ route('admin.maquinaria.index') }}">Ingreso de Maquinaria</a></li>
                   @endif
-                  <li><a href="{{ route('admin.transaccion.index') }}">Comprar/Alquilar Maquinaria</a></li>
+                  <li><a href="{{ route('admin.transaccion.index') }}">Compras/Alquilares de Maquinaria</a></li>
                   </ul>
             </li>
           @endif
