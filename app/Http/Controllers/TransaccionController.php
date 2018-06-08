@@ -67,28 +67,20 @@ class TransaccionController extends Controller
          $usuario=Auth::user();
         $maquinarias= maquinaria::orderBy('id', 'ASC')
                                     ->where('region_id',$usuario->region_id)
-                                    ->whereIn('estadoEquipo_id', [1,4])
+                                    ->whereIn('estadoEquipo_id', [1,3])
                                     ->get();
-     
-
-        return view('admin.transaccion.listmaquinarias', compact('tipoTransacciones', 'maquinarias'));
+             return view('admin.transaccion.listmaquinarias', compact('tipoTransacciones', 'maquinarias'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-
+        if($request->tipoTransaccion_id==1){
         $transaccion=new transaccion();
         $transaccion->fecha=$request->fecha;
         $transaccion->cantidadDias=0;
 
         $maquinaria= maquinaria::find($request->maquinaria_id);
-        $maquinaria->estadoEquipo_id=5;
+        $maquinaria->estadoEquipo_id=4;
         $maquinaria->save();
 
         $transaccion->total=$maquinaria->precio;
@@ -103,6 +95,30 @@ class TransaccionController extends Controller
         flash("Se ha registrado tu compra de la maquinaria: ". $maquinaria->placa . " de forma exitosa, espera confirmación")->success()->important();
 
         return redirect()->route('admin.transaccion.index');
+        }
+        else
+        {
+            $transaccion=new transaccion();
+            $transaccion->fecha=$request->fecha;
+            $transaccion->cantidadDias=$request->cantidadDias;
+
+            $maquinaria= maquinaria::find($request->maquinaria_id);
+            $maquinaria->estadoEquipo_id=2;
+            $maquinaria->save();
+
+            $transaccion->total=$maquinaria->costoPorDia*$request->cantidadDias;
+            
+            $transaccion->user_id=Auth::user()->obtenerId();
+            $transaccion->tipoTransaccion_id=$request->tipoTransaccion_id;
+            $transaccion->maquinaria_id=$request->maquinaria_id;
+            $transaccion->estadoTransaccion_id=1;
+            $transaccion->save();
+            
+
+            flash("Se ha registrado tu Alquiler de la maquinaria: ". $maquinaria->placa . " de forma exitosa, espera confirmación")->success()->important();
+
+            return redirect()->route('admin.transaccion.index');
+        }
     }
 
      public function show($id)
@@ -121,18 +137,18 @@ class TransaccionController extends Controller
 
      public function alquilar($id, $tipo)
     {
-        dd('si');
         $usuario=Auth::user()->obtenerId();
         $tipoTransaccion=tipoTransaccion::where('descripcion',$tipo)->select('id')->first();
 
         $maquinaria= maquinaria::find($id);
-        return view('admin.transaccion.comprar', compact('maquinaria','usuario', 'tipoTransaccion'));
+        return view('admin.transaccion.alquilar', compact('maquinaria','usuario', 'tipoTransaccion'));
     }
 
     public function edit($id)
     {
         $usuario=Auth::user()->obtenerId();
         $transaccion= transaccion::find($id);
+       
         $maquinaria=maquinaria::find($transaccion->maquinaria_id);
         return view('admin.transaccion.validar', compact('usuario', 'transaccion', 'maquinaria'));
     }
@@ -140,13 +156,22 @@ class TransaccionController extends Controller
 
     public function update(Request $request, $id)
     {
-
+         if($request->tipoTransaccion_id==1){
         $transaccion=transaccion::Find($id);
         $transaccion->estadoTransaccion_id=2;
-        $transaccion->save();
+         $transaccion->save();
 
       flash('La transaccion de '. $transaccion->user->name . ' ha sido autorizada con éxito')->warning()->important();
+      return redirect()->route('admin.transaccion.index');}
+      else
+      {
+        $transaccion=transaccion::Find($id);
+        $transaccion->estadoTransaccion_id=2;
+         $transaccion->save();
+          flash('La transaccion de '. $transaccion->user->name . ' ha sido autorizada con éxito')->warning()->important();
       return redirect()->route('admin.transaccion.index');
+      
+      }
     }
 
 

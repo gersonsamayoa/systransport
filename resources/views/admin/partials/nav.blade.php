@@ -21,7 +21,7 @@
                   @if (!Auth::user()->usuariomineria())
                   <li> <a href="#">Ingreso de Materias</a></li>
                   @endif
-                  <li> <a href="#">Envios de Materias</a></li>
+                  <li> <a href="#">Transacciones de Materias</a></li>
                 </ul>
             </li>
             @endif
@@ -32,8 +32,7 @@
                   @if (!Auth::user()->usuarioproductos())
                   <li> <a href="#">Ingreso de Productos</a></li>
                   @endif
-                  <li> <a href="#">Venta de Productos</a></li>
-                  <li> <a href="#">Envio de productos</a></li>
+                  <li> <a href="#">Transacciones de Productos</a></li>
                 </ul>
             </li>
             @endif
@@ -56,7 +55,7 @@
                   @if (!Auth::user()->usuarioservicios())
                   <li> <a href="#">Ingreso de Nuevos Servicios</a></li>
                   @endif
-                  <li><a href="#">Asignar Servicios a Clientes</a></li>
+                  <li><a href="#">Transaccion de Servicios</a></li>
                  </ul>
             </li>
           @endif

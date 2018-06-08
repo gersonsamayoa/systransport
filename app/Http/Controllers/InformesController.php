@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\tipoUsuario;
 use App\region;
+use App\transaccion;
 use Auth;
 use Barryvdh\DomPDF\Facade as PDF;
 
@@ -23,9 +24,7 @@ class Informescontroller extends Controller
     public function usuarios()
     {
         $usuariomaquinaria= tipoUsuario::find(1)->where('descripcion','usuariomaquinaria')->first();
-        $usuariomineria= tipoUsuario::find(1)->where('descripcion','usuariomineria')->first();
-        $usuarioproductos= tipoUsuario::find(1)->where('descripcion','usuarioproductos')->first();
-        $usuarioservicios= tipoUsuario::find(1)->where('descripcion','usuarioservicios')->first();
+      
 
         $region=Auth::user()->obtenerregion();
        
@@ -35,53 +34,31 @@ class Informescontroller extends Controller
         $usuarios=User::Where('region_id', $region)
                         ->Where('tipoUsuario_id', $usuariomaquinaria->id)
                         ->orWhere('user_id', Auth::user()->obtenerId())
-                        ->Where('tipoUsuario_id', $usuariomaquinaria->id)
-                        ->Where('region_id', $region)
                         ->paginate(4); 
         }
 
-        if(Auth::user()->gerenteproductos()){
-        $usuarios=User::where('user_id', null)
-                        ->Where('region_id', $region)
-                        ->Where('tipoUsuario_id', $usuarioproductos->id)
-                        ->orWhere('user_id', Auth::user()->obtenerId())
-                        ->Where('tipoUsuario_id', $usuarioproductos->id)
-                        ->Where('region_id', $region)
-                        ->paginate(4); 
-        }
-
-         if(Auth::user()->gerentemineria()){
-        $usuarios=User::where('user_id', null)
-                        ->Where('region_id', $region)
-                        ->Where('tipoUsuario_id', $usuariomineria->id)
-                        ->orWhere('user_id', Auth::user()->obtenerId())
-                        ->Where('tipoUsuario_id', $usuariomineria->id)
-                        ->Where('region_id', $region)
-                        ->paginate(4); 
-        }
-
-          if(Auth::user()->gerenteservicios()){
-        $usuarios=User::where('user_id', null)
-                        ->Where('region_id', $region)
-                        ->Where('tipoUsuario_id', $usuarioservicios->id)
-                        ->orWhere('user_id', Auth::user()->obtenerId())
-                        ->Where('tipoUsuario_id', $usuarioservicios->id)
-                        ->Where('region_id', $region)
-                        ->paginate(4); 
-        }
-
-    
+       
         $pdf=new PDF();
         $pdf=PDF::loadview('admin.usuarios.informe',compact('usuarios'));
          return $pdf->stream('archivo.pdf');
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function factura($id)
+    {
+       
+        $transacciones= transaccion::where('id', $id)->get();
+
+        $region=Auth::user()->obtenerregion();
+        $usuario=Auth::user();
+
+        $pdf=new PDF();
+        $pdf=PDF::loadview('admin.transaccion.factura',compact('transacciones', 'region', 'usuario'));
+         return $pdf->stream('archivo.pdf');
+
+    }
+
+ 
     public function create()
     {
         //

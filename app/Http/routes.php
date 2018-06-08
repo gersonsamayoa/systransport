@@ -60,6 +60,11 @@ Route::group(['prefix'=>'admin','middleware' => 'auth'], function() {
 		'as' 	=>'admin.transaccion.alquilar'
 		]);
 
+		Route::get('transaccion/comprar/{id}', [
+		'uses'	=>'InformesController@factura',
+		'as' 	=>'admin.transaccion.informes'
+		]);
+
 	});
 			/*Rutas para inicio de sesion*/
 			Route::get('admin/auth/login',[

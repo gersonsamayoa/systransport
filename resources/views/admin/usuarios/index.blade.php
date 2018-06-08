@@ -1,8 +1,8 @@
 @extends ('admin.template.main')
-@section('title', 'Listado de usuarios')
+@section('title', 'Listado de usuarios '. Auth::user()->region->descripcion)
 @section('content')
 <a href="{{route('admin.usuarios.create')}}" class="btn btn-info">Nuevo Usuario</a>
-<a href="{{route('admin.usuarios.informes')}}" class="btn btn-success">Generar Informe</a>
+<a href="{{route('admin.usuarios.informes')}}" class="btn btn-success">Generar Informe Usuarios</a>
 <hr>
 <div class="table-responsive">
 	<table class="table table-striped table-hover">

@@ -8,7 +8,7 @@ class transaccion extends Model
 {
      protected $table = 'transaccion';
 
-     protected $fillable = ['id', 'fecha', 'total', 'user_id', 'estadoTransaccion_id', 'tipoTransaccion_id', 'maquinaria_id'];
+     protected $fillable = ['id', 'fecha', 'cantidadDias', 'total', 'user_id', 'estadoTransaccion_id', 'tipoTransaccion_id', 'maquinaria_id'];
 
 	 
 	 public function user()
@@ -26,9 +26,12 @@ class transaccion extends Model
      return $this->belongsTo('App\tipoTransaccion', 'tipoTransaccion_id');
      }
 
+
       public function maquinaria()
      {
      return $this->belongsTo('App\maquinaria', 'maquinaria_id');
      }
+
+   
 
 }

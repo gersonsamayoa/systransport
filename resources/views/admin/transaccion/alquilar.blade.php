@@ -1,6 +1,6 @@
 @extends('admin.template.main')
 
-@section('title','Comprar Maquinaria')
+@section('title','Alquilar Maquinaria')
 
 @section('content')
 
@@ -13,7 +13,13 @@
 		</ul>
 	</div>
 	@endif
-	 <img src="/images/{{ $maquinaria->imagen }}" >
+	<div class="row container">
+	<div class="col-md-12">
+		<div class="thumbnail panel panel-default">
+		 <img src="/images/{{ $maquinaria->imagen }}"  >
+		</div>
+	</div>
+	</div>
 	 <br><br>
 
 	{!! Form::open(['route'=>'admin.transaccion.store', 'method'=>'POST']) !!}
@@ -33,8 +39,13 @@
 	</div>
 
 	<div class="form-group">
-	{!!Form::label('precio', 'Precio Q.')!!}
-	{!!Form::text('precio',$maquinaria->precio,['class'=>'form-control','', 'readonly'])!!}
+	{!!Form::label('costo', 'Costo por Dia Q.')!!}
+	{!!Form::text('costoPorDia',$maquinaria->costoPorDia,['class'=>'form-control','', 'readonly'])!!}
+	</div>
+
+	<div class="form-group">
+	{!!Form::label('dias', 'Cantidad de Dias')!!}
+	{!!Form::number('cantidadDias',null,['class'=>'form-control','', 'required'])!!}
 	</div>
 
 	<div class="form-group">
@@ -45,13 +56,9 @@
 	{!!Form::hidden('maquinaria_id', $maquinaria->id, ['class'=>'form-control'])!!}
 	</div>
 
-	<div class="form-group">
-	{!!Form::hidden('estadoTransaccion', 0, ['class'=>'form-control'])!!}
-	</div>
-
 
 	<div class="form-group">
-	{!!Form::submit('Comprar',['class'=>'btn btn-primary'])!!}
+	{!!Form::submit('Alquilar',['class'=>'btn btn-primary'])!!}
 	<a class="btn btn-danger" href="{{route('admin.transaccion.index')}}" role="button">Cancelar</a>
 	</div>
 

@@ -18,17 +18,17 @@
 
 	<div class="form-group">
 	{!!Form::label('placa', 'No. Placa')!!}
-	{!!Form::text('placa',null,['class'=>'form-control','', 'required'])!!}
+	{!!Form::text('placa',null,['class'=>'form-control','placeholder'=> 'Placa', 'required'])!!}
 	</div>
 
 	<div class="form-group">
 	{!!Form::label('costoPorDia', 'Costo de alquiler por Día')!!}
-	Q{!!Form::number('costoPorDia',null,['class'=>'form-control', 'step'=>'0.05','placeholder'=> '####.##', ''])!!}
+	Q{!!Form::number('costoPorDia',null,['class'=>'form-control', 'step'=>'0.05','placeholder'=> 'Costo', ''])!!}
 	</div>
 
 	<div class="form-group">
 	{!!Form::label('precio', 'Precio para la venta')!!}
-	Q{!!Form::number('precio',null,['class'=>'form-control', 'step'=>'0.05','placeholder'=> '####.##', ''])!!}
+	Q{!!Form::number('precio',null,['class'=>'form-control', 'step'=>'0.05','placeholder'=> 'Precio', ''])!!}
 	</div>
 
 	<div class="form-group">

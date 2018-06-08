@@ -23,7 +23,7 @@ class MaquinariaController extends Controller
         $usuario=Auth::user();
         $maquinarias= maquinaria::orderBy('id', 'ASC')
                                     ->where('region_id',$usuario->region_id)
-                                    ->whereIn('estadoEquipo_id', [1,4])
+                                    ->whereIn('estadoEquipo_id', [1,3])
                                     ->paginate(4);
                 
         return view('admin.maquinaria.index', compact('maquinarias'));
@@ -71,6 +71,7 @@ class MaquinariaController extends Controller
         $tipoMaquinaria=tipoMaquinaria::select('id', 'descripcion')->orderby('id','ASC')->lists('descripcion','id');
 
         $maquinaria= maquinaria::find($id);
+
         return view('admin.maquinaria.edit', compact('maquinaria','usuario', 'estadoEquipo', 'tipoMaquinaria'));
     }
 
@@ -81,7 +82,11 @@ class MaquinariaController extends Controller
         $maquinaria=maquinaria::Find($id);
         $name=$maquinaria->imagen;
 
-        if($request->file('imagen')){
+        if($request->imagen){
+
+        $path=public_path(). '/images/'.$name;
+        unlink($path);
+
         $file= $request->file('imagen');
         $name='systransport_'.time().'.'.$file->getClientOriginalExtension();
         $path=public_path(). '/images/';

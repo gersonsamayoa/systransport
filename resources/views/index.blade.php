@@ -11,13 +11,13 @@
                   <!-- Wrapper for slides -->
                   <div class="carousel-inner" role="listbox">
                     <div class="item active">
-                      <img src="http://placehold.it/1900x400" alt="Alt">
+                      <img src="{{asset('images/transport.jpg')}}" alt="Alt">
                       <div class="carousel-caption">
                         1
                       </div>
                     </div>
                     <div class="item">
-                      <img src="http://placehold.it/1900x400" alt="Alt">
+                      <img src="{{asset('images/transport.jpg')}}" alt="Alt">
                       <div class="carousel-caption">
                         2
                       </div>
@@ -40,7 +40,7 @@
                     <div class="col-md-4">
                     <div class="thumbnail panel panel-default">
                       <div class="panel-heading">Extracción y transporte de Materia Prima a diferentes partes de Guatemala</div>
-                      <img src="http://placehold.it/400x300" alt="Deporte y ejercicio">
+                      <img src="{{asset('images/transport2.jpg')}}" alt="">
                       <div class="caption centrar">
                         <h3>Servicios de Mineria</h3>
                         <p><a href="#" class="btn btn-primary" role="button">Ver mas</a></p>
@@ -50,7 +50,7 @@
                   <div class="col-md-4">
                        <div class="thumbnail panel panel-default">
                       <div class="panel-heading">Produción y envios de producos como: pisos, cerámicos y otros</div>
-                      <img src="http://placehold.it/400x300" alt="Deporte y ejercicio">
+                      <img src="{{asset('images/transport3.jpg')}}" alt="">
                       <div class="caption centrar">
                         <h3>Productos de construcción</h3>
                         <p><a href="#" class="btn btn-primary" role="button">Ver mas</a></p>
@@ -59,8 +59,18 @@
                   </div>
                   <div class="col-md-4">
                        <div class="thumbnail panel panel-default">
-                      <div class="panel-heading">Construcción de puentes, carreteras y edicios, venta y alquiler de maquinaria</div>
-                      <img src="http://placehold.it/400x300" alt="Deporte y ejercicio">
+                      <div class="panel-heading">Venta y alquiler de maquinaria</div>
+                      <img src="{{asset('images/transport1.jpg')}}" alt="">
+                      <div class="caption centrar">
+                        <h3>Venta y Alquiler</h3>
+                        <p><a href="#" class="btn btn-primary" role="button">Ver mas</a></p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-md-offset-4">
+                       <div class="thumbnail panel panel-default">
+                      <div class="panel-heading">Construcción de puentes, carreteras y edicios</div>
+                      <img src="{{asset('images/transport4.jpg')}}" alt="">
                       <div class="caption centrar">
                         <h3>Servicios de Construcción</h3>
                         <p><a href="#" class="btn btn-primary" role="button">Ver mas</a></p>

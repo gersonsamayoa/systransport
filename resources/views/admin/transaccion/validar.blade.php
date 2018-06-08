@@ -1,6 +1,6 @@
 @extends('admin.template.main')
 
-@section('title','Comprar Maquinaria')
+@section('title','Validar Compra o Alquiler Maquinaria')
 
 @section('content')
 
@@ -26,7 +26,7 @@
 
 	<div class="form-group">
 	{!!Form::label('fecha', 'Fecha')!!}
-	{!!Form::date('fecha',$transaccion->fecha,['class'=>'form-control','', 'required'])!!}
+	{!!Form::date('fecha',$transaccion->fecha,['class'=>'form-control','', 'readonly'])!!}
 	</div>
 
 	<div class="form-group">
@@ -39,15 +39,29 @@
 	{!!Form::text('tipoMaquinaria',$maquinaria->tipoMaquinaria->descripcion,['class'=>'form-control','', 'readonly'])!!}
 	</div>
 
-	<div class="form-group">
-	{!!Form::label('precio', 'Precio Q.')!!}
-	{!!Form::text('precio',$maquinaria->precio,['class'=>'form-control','', 'readonly'])!!}
+		<div class="form-group">
+	{!!Form::label('tipoTransaccion', 'Tipo Transaccion')!!}
+	{!!Form::text('tipoTransaccion', $transaccion->tipoTransaccion->descripcion, ['class'=>'form-control', 'readonly'])!!}
 	</div>
 
+	@if($transaccion->tipoTransaccion->descripcion=="Alquiler")
+		<div class="form-group">
+		{!!Form::label('costoporDia', 'CostoPordia')!!}
+		{!!Form::text('costoporDia', $maquinaria->costoPorDia, ['class'=>'form-control', 'readonly'])!!}
+		</div>
+
+		<div class="form-group">
+		{!!Form::label('cantidadDias', 'Cantidad de Dias')!!}
+		{!!Form::text('cantidadDias', $transaccion->cantidadDias, ['class'=>'form-control', 'readonly'])!!}
+		</div>
+	@endif
+
+
 	<div class="form-group">
-	{!!Form::label('tipoTransaccion', 'Tipo Transaccion')!!}
-	{!!Form::text('tipoTransaccion_id', $transaccion->tipoTransaccion->descripcion, ['class'=>'form-control', 'readonly'])!!}
+	{!!Form::label('total', 'Total Q.')!!}
+	{!!Form::text('precio',$transaccion->total,['class'=>'form-control','', 'readonly'])!!}
 	</div>
+
 
 	<div class="form-group">
 	{!!Form::hidden('maquinaria_id', $maquinaria->id, ['class'=>'form-control'])!!}
@@ -55,6 +69,10 @@
 
 	<div class="form-group">
 	{!!Form::hidden('estadoTransaccion', 0, ['class'=>'form-control'])!!}
+	</div>
+
+	<div class="form-group">
+	{!!Form::hidden('tipoTransaccion_id', $transaccion->tipoTransaccion_id, ['class'=>'form-control'])!!}
 	</div>
 
 

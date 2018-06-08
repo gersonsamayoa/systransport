@@ -16,10 +16,6 @@ class EstadoEquipoTableSeeder extends Seeder
         ]);
         
         DB::table('EstadoEquipo')->insert([
-        'descripcion'=>'En Reparación',
-        ]);
-
-        DB::table('EstadoEquipo')->insert([
         'descripcion'=>'Alquilado',
         ]);
 

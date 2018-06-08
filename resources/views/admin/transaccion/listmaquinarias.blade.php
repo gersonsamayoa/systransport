@@ -1,6 +1,6 @@
 @extends('admin.template.main')
 
-@section('title','Maquinaria Disponible')
+@section('title','Maquinaria Disponible para: ' . Auth::user()->region->descripcion)
 
 @section('content')
 
@@ -13,7 +13,7 @@
 		</ul>
 	</div>
 	@endif
-	<div class="row container">
+       <div class="row container">
 				@foreach($maquinarias as $maquinaria)
                     <div class="col-md-4">
                     <div class="thumbnail panel panel-default">
@@ -23,16 +23,17 @@
                            	@if($maquinaria->estadoEquipo_id == 1)
                         	<h4>Precio: Q{{number_format($maquinaria->precio, '2','.' , ',')}}</h4>
                         	 <p align="center">
-                        	<a href="{{route('admin.transaccion.comprar', [$maquinaria->id, 'Compra'] )}}" class="btn btn-info" role="button">Comprar</a> 
+                        	<a href="{{route('admin.transaccion.comprar', [$maquinaria->id, 'Compra'] )}}" class="btn btn-info" role="button">Comprar</a>   </p>
                         	@else
                         	<h4>Valor por día: Q{{number_format($maquinaria->costoPorDia, '2','.' , ',')}}</h4>
                         	 <p align="center">
                         	<a href="{{route('admin.transaccion.alquilar',[ $maquinaria->id, 'Alquiler'])}}" class="btn btn-success" role="button">Alquilar</a></p>
                         	@endif
-                      </div>
+               
+                       </div>
                     </div>
                   </div>
-                  @endforeach
-                </div>
-               
+            
+                  @endforeach    
+                         </div>   
 	@endsection

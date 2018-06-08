@@ -51,10 +51,6 @@
 	{!!Form::hidden('maquinaria_id', $maquinaria->id, ['class'=>'form-control'])!!}
 	</div>
 
-	<div class="form-group">
-	{!!Form::hidden('estadoTransaccion', 0, ['class'=>'form-control'])!!}
-	</div>
-
 
 	<div class="form-group">
 	{!!Form::submit('Comprar',['class'=>'btn btn-primary'])!!}

@@ -1,5 +1,5 @@
 @extends ('admin.template.main')
-@section('title', 'Listado de Maquinaria Disponible')
+@section('title', 'Listado de Maquinaria Disponible para: ' . Auth::user()->region->descripcion)
 @section('content')
 <a href="{{route('admin.maquinaria.create')}}" class="btn btn-success">Nueva Maquina</a>
 <hr>

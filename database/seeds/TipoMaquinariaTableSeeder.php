@@ -12,11 +12,15 @@ class TipoMaquinariaTableSeeder extends Seeder
     public function run()
     {
          DB::table('tipoMaquinaria')->insert([
-        'descripcion'=>'Camion',
+        'descripcion'=>'Liviano',
         ]);
 
          DB::table('tipoMaquinaria')->insert([
-        'descripcion'=>'Aplanadora',
+        'descripcion'=>'Mediano',
+        ]);
+
+          DB::table('tipoMaquinaria')->insert([
+        'descripcion'=>'Pesado',
         ]);
     }
 }
