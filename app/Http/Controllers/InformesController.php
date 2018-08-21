@@ -47,15 +47,25 @@ class Informescontroller extends Controller
     public function factura($id)
     {
        
-        $transacciones= transaccion::where('id', $id)->get();
+       $transacciones= transaccion::orderBy('id', 'ASC')
+                                ->where('id', $id)
+                                ->where('estadoTransaccion_id',2)->paginate(4);
 
         $region=Auth::user()->obtenerregion();
         $usuario=Auth::user();
 
         $pdf=new PDF();
-        $pdf=PDF::loadview('admin.transaccion.factura',compact('transacciones', 'region', 'usuario'));
-         return $pdf->stream('archivo.pdf');
 
+        if(Auth::user()->gerentegeneral()){
+            $transacciones= transaccion::orderBy('id', 'ASC')
+                                ->where('estadoTransaccion_id',2)->paginate(4);
+             $sum = transaccion::where('estadoTransaccion_id',2)->sum('total');
+            $pdf=PDF::loadview('admin.transaccion.informe',compact('transacciones', 'region', 'usuario', 'sum'));
+         return $pdf->stream('archivo.pdf');
+        }
+        else{
+        $pdf=PDF::loadview('admin.transaccion.factura',compact('transacciones', 'region', 'usuario'));
+         return $pdf->stream('archivo.pdf');}
     }
 
  

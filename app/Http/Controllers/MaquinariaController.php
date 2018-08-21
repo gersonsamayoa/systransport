@@ -24,7 +24,12 @@ class MaquinariaController extends Controller
         $maquinarias= maquinaria::orderBy('id', 'ASC')
                                     ->where('region_id',$usuario->region_id)
                                     ->whereIn('estadoEquipo_id', [1,3])
-                                    ->paginate(4);
+                                    ->paginate(10);
+        if(Auth::user()->gerentegeneral()){
+            $maquinarias= maquinaria::orderBy('id', 'ASC')
+                                    ->whereIn('estadoEquipo_id', [1,3])
+                                    ->paginate(10);
+        }
                 
         return view('admin.maquinaria.index', compact('maquinarias'));
     }

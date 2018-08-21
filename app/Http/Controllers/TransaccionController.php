@@ -11,6 +11,7 @@ use App\tipoTransaccion;
 use App\estadoEquipo;
 use App\tipoMaquinaria;
 use App\maquinaria;
+use App\estadoTransaccion;
 use App\user;
 use Auth;
 
@@ -21,9 +22,11 @@ class TransaccionController extends Controller
     {
         if(Auth::user()->gerentegeneral()){
            $transacciones= transaccion::orderBy('id', 'ASC')
+                                ->where('estadoTransaccion_id',2)
                                 ->paginate(4);
-
-         return view('admin.transaccion.index', compact('transacciones'));    
+            $sum = transaccion::where('estadoTransaccion_id',2)->sum('total');
+            
+         return view('admin.transaccion.index', compact('transacciones','sum'));    
                             }
      
 
@@ -50,6 +53,15 @@ class TransaccionController extends Controller
                                 ->orWhere('user_id', Auth::user()->id)
                                 ->paginate(4);
         }
+ /*Noficacion de Compras Alquileres sin autorizar*/
+        $contador=0;
+        foreach($transacciones as $transaccion){
+                if($transaccion->estadoTransaccion->descripcion!="Finalizada"){
+                    $contador++;
+                }
+            }
+        if($contador>0){
+        flash('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Existen '. $contador .  ' transacciones Pendientes')->error()->important();}
                                     
         return view('admin.transaccion.index', compact('transacciones'));
     }
@@ -148,9 +160,10 @@ class TransaccionController extends Controller
     {
         $usuario=Auth::user()->obtenerId();
         $transaccion= transaccion::find($id);
+       $estadoTransaccion=estadoTransaccion::select('id', 'descripcion')->orderby('id','ASC')->lists('descripcion','id');
        
         $maquinaria=maquinaria::find($transaccion->maquinaria_id);
-        return view('admin.transaccion.validar', compact('usuario', 'transaccion', 'maquinaria'));
+        return view('admin.transaccion.validar', compact('usuario', 'transaccion', 'maquinaria', 'estadoTransaccion'));
     }
 
 
@@ -158,7 +171,7 @@ class TransaccionController extends Controller
     {
          if($request->tipoTransaccion_id==1){
         $transaccion=transaccion::Find($id);
-        $transaccion->estadoTransaccion_id=2;
+        $transaccion->estadoTransaccion_id=$request->estadoTransaccion;
          $transaccion->save();
 
       flash('La transaccion de '. $transaccion->user->name . ' ha sido autorizada con éxito')->warning()->important();
@@ -166,7 +179,12 @@ class TransaccionController extends Controller
       else
       {
         $transaccion=transaccion::Find($id);
-        $transaccion->estadoTransaccion_id=2;
+        $transaccion->estadoTransaccion_id=$request->estadoTransaccion;
+            if($request->estadoTransaccion==2){
+                $maquinaria=maquinaria::find($transaccion->maquinaria_id);
+                $maquinaria->estadoEquipo_id=3;
+                $maquinaria->save();
+            }
          $transaccion->save();
           flash('La transaccion de '. $transaccion->user->name . ' ha sido autorizada con éxito')->warning()->important();
       return redirect()->route('admin.transaccion.index');
@@ -180,8 +198,15 @@ class TransaccionController extends Controller
 
         $transaccion= transaccion::find($id);
 
-        /*$maquinaria= maquinaria::find($transaccion->maquinaria_id);
-        $maquinaria->estadoEquipo_id=1;*/
+        if($transaccion->tipoTransaccion_id==2){
+        $maquinaria=maquinaria::find($transaccion->maquinaria_id);
+                $maquinaria->estadoEquipo_id=3;
+                $maquinaria->save();}
+                
+        if($transaccion->tipoTransaccion_id==1){
+        $maquinaria=maquinaria::find($transaccion->maquinaria_id);
+                $maquinaria->estadoEquipo_id=1;
+                $maquinaria->save();}
 
         $transaccion->delete();
 
